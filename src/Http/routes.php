@@ -13,7 +13,7 @@ Route::group(['prefix' => '/api/g', 'namespace' => 'Jiko\Gaming\Http\Controllers
     Route::get('{id}/trophies/{npCommID}', ['uses' => 'PSNController@trophiesByGame']);
   });
   Route::group(['prefix' => '/steam'], function () {
-    Route::get('/', ['as' => 'steam', 'uses' => 'Jiko\Vendor\Steam\SteamController@index']);
+    Route::get('/', ['as' => 'steam', 'uses' => 'SteamController@index']);
   });
 });
 
