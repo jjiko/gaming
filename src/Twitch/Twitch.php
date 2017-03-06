@@ -14,9 +14,10 @@ class Twitch extends Model {
     parent::__construct();
   }
 
-  public function stream($user="joejiko")
+  public function stream($user="jjiko")
   {
-    if(!$stream = getJson("https://api.twitch.tv/kraken/streams/$user?client_id=$this->client_id")) {
+    $streamUrl = sprintf("https://api.twitch.tv/kraken/streams/%s?client_id=%s", $user, $this->client_id);
+    if(!$stream = getJson($streamUrl)) {
       return null;
     }
 

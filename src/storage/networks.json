@@ -1,0 +1,35 @@
+[
+  {
+    "name": "Steam",
+    "id": "joejiko",
+    "url": "http://steamcommunity.com/id/joejiko"
+  },
+  {
+    "name": "PSN",
+    "id": "joejiko",
+    "url": "https://my.playstation.com/joejiko"
+  },
+  {
+    "name": "Switch",
+    "id": "SW-1303-0262-1450",
+    "img_type": "svg",
+    "img_background":"#e60012"
+  },
+  {
+    "name": "Wii U",
+    "id": "jjcoms",
+    "url": "https://miiverse.nintendo.net/users/jjcoms"
+  },
+  {
+    "name": "3DS",
+    "id": "1950 - 8211 - 2435"
+  },
+  {
+    "name": "Battle.net",
+    "id": "JoeJiko#1267"
+  },
+  {
+    "name": "Origin",
+    "id": "joejiko"
+  }
+]
