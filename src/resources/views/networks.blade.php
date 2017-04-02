@@ -1,8 +1,9 @@
 <article class="row">
     <div class="col-md-12">
-        <h2>Let's play!</h2>
-
-        <p>Add me to your game networks</p>
+        @if(!request()->ajax())
+            <h2>Let's play!</h2>
+            <p>Add me to your game networks</p>
+        @endif
 
         <div class="table-responsive">
             <table class="table table-condensed">
@@ -14,8 +15,9 @@
                     <tr>
                         <td>
                             @if(isset($network->img_background))
-                                    <img class="img-responsive" alt="{{ $network->name }}"
-                                         src="{{ cdn_img_path() . '/gaming/networks/logo-' .  str_replace('.', '', str_replace(' ', '', strtolower($network->name))) . '.' . (isset($network->img_type) ? $network->img_type : 'png') }}" style="background-color: {{ $network->img_background }}; padding: 5px">
+                                <img class="img-responsive" alt="{{ $network->name }}"
+                                     src="{{ cdn_img_path() . '/gaming/networks/logo-' .  str_replace('.', '', str_replace(' ', '', strtolower($network->name))) . '.' . (isset($network->img_type) ? $network->img_type : 'png') }}"
+                                     style="background-color: {{ $network->img_background }}; padding: 5px">
                             @else
                                 <img class="img-responsive" alt="{{ $network->name }}"
                                      src="{{ cdn_img_path() . '/gaming/networks/logo-' .  str_replace('.', '', str_replace(' ', '', strtolower($network->name))) . '.' . (isset($network->img_type) ? $network->img_type : 'png') }}">

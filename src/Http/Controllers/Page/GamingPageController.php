@@ -1,24 +1,78 @@
 <?php namespace Jiko\Gaming\Http\Controllers\Page;
 
+use Jiko\Auth\User;
 use Jiko\Http\Controllers\Controller;
 use Jiko\Gaming\Twitch\Twitch;
 
 class GamingPageController extends Controller
 {
+  /**
+   * @todo bind id to User model
+   */
+  public function user($id)
+  {
+    $game_user = User::find($id);
+    $this->page->title = $game_user->name . ' Gaming stream & list';
+    if (!$game_user->games->count()) {
+      return $this->setContent('gaming::user.no-games', ['game_user' => $game_user]);
+    }
+    $games = $game_user->games()->wherePivot('status', 'Playing')->with('platforms')->get();
+    if (count($games) > 8) {
+      $games_sorted = $games->random(8)->sort(function ($a, $b) {
+        return strcmp($a->platforms->first()->name, $b->platforms->first()->name);
+      });
+    } else {
+      $games_sorted = $games->sort(function ($a, $b) {
+        return strcmp($a->platforms->first()->name, $b->platforms->first()->name);
+      });
+    }
+    $games_grouped = $games_sorted->split(ceil(count($games_sorted) / 4));
+    view()->share([
+        'layout' => (object)[
+          'config' => ['main.class' => 'no-sidebar'],
+        ],
+        'game_user' => $game_user,
+        'games_count' => $games->count(),
+        'games_grouped' => $games_grouped,
+        'networks' => json_decode(file_get_contents(__DIR__ . '/../../../storage/networks.json')),
+      ]
+    );
+
+    $this->setContent('gaming::user.index');
+  }
+
   public function index()
   {
     $this->page->title = "Gaming stream & news.";
     $twitch = (new Twitch)->stream();
+    $games = User::find(2)->games()->wherePivot('status', 'Playing')->with('platforms')->get();
+    $games_sorted = $games->random(8)->sort(function ($a, $b) {
+      return strcmp($a->platforms->first()->name, $b->platforms->first()->name);
+    });
+    $games_grouped = $games_sorted->split(ceil(count($games_sorted) / 4));
     view()->share([
         'layout' => (object)[
           'config' => ['main.class' => 'no-sidebar'],
         ],
         'TwitchStatus' => $twitch->stream ? "online" : "offline",
-        'networks' => json_decode(file_get_contents(__DIR__ .'/../../../storage/networks.json'))
+        'games_count' => $games->count(),
+        'games_grouped' => $games_grouped,
+        'networks' => json_decode(file_get_contents(__DIR__ . '/../../../storage/networks.json')),
       ]
     );
 
     $this->setContent('gaming::index');
+  }
+
+  public function allGames()
+  {
+    $this->page->title = "Game list";
+    $games = User::find(2)->games()->with('platforms')->get();
+    $games_grouped = $games_grouped = $games->groupBy(function ($item, $key) {
+      return $item->platforms->first()->name;
+    });
+
+    $this->setContent('gaming::all-games', ['games_grouped' => $games_grouped]);
   }
 
 

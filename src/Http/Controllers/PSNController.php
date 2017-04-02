@@ -1,7 +1,7 @@
 <?php namespace Jiko\Gaming\Http\Controllers;
 
 use Jiko\Http\Controllers\Controller;
-use Guzzle\Http\Client;
+use GuzzleHttp\Client;
 use Gumer\PSN\Http\Connection;
 use Gumer\PSN\Authentication\Manager;
 use Gumer\PSN\Authentication\UserProvider;
@@ -21,7 +21,7 @@ class PSNController extends Controller
   }
   public function profile($id)
   {
-    $client = new Client('', ['redirect.disable' => true]);
+    $client = new Client(['redirect.disable' => true]);
     $connection = new Connection;
     $connection->setGuzzle($client);
     $provider = new UserProvider($connection);
@@ -44,7 +44,7 @@ class PSNController extends Controller
   public function trophies($id)
   {
     // Gets the ID owner's trophy (first 100) information and returns the JSON object.
-    $client = new Client('', ['redirect.disable' => true]);
+    $client = new Client(['redirect.disable' => true]);
     $connection = new Connection;
     $connection->setGuzzle($client);
 

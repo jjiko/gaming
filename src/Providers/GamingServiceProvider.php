@@ -3,6 +3,8 @@
 namespace Jiko\Gaming\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Route;
+use Jiko\Auth\User;
 
 class GamingServiceProvider extends ServiceProvider
 {
@@ -11,6 +13,7 @@ class GamingServiceProvider extends ServiceProvider
     parent::boot();
 
     $this->loadViewsFrom(__DIR__ . '/../resources/views', 'gaming');
+    $this->loadViewsFrom(__DIR__ . '/../resources/views/admin', 'admin');
   }
 
   public function register()
