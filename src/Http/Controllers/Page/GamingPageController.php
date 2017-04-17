@@ -66,17 +66,20 @@ class GamingPageController extends Controller
     $this->page->title = "Game list";
     $games = User::find(2)->games()->with('platforms')->get();
     $wishlist = new Collection();
-    $games_grouped = $games_grouped = $games->groupBy(function ($item, $key) use ($wishlist) {
+    $games_grouped = $games->groupBy(function ($item, $key) use ($wishlist) {
       if ($item->pivot->status == "Wishlist") {
         $wishlist->push($item);
-        return;
+        return 'Wishlist';
       }
       return $item->platforms->first()->name;
+    });
+    $games_filtered = $games_grouped->reject(function($value, $key){
+      return $key == "Wishlist";
     });
     $wishlist_grouped = new Collection(['Wishlist' => $wishlist]);
 
     $this->setContent('gaming::all-games', [
-      'games_grouped' => $games_grouped,
+      'games_grouped' => $games_filtered,
       'wishlist' => $wishlist_grouped
     ]);
   }
