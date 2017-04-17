@@ -100,7 +100,7 @@
 @stop
 
 @section('sidebars.tr')
-    <div id="sidebars-4">
+    <div id="sidebars-4" style="height:50%">
         <div class="container">
             <div clas="col-md-12">
                 Game chat
@@ -118,12 +118,14 @@
             </div>
         </div>
     </div>
+    @include('gaming::activities')
 @stop
 @section('styles')
     <style>
         .game-img {
-            cursor:pointer;
+            cursor: pointer;
         }
+
         .game-img:hover {
             bottom: auto;
             top: 0;

@@ -52,7 +52,7 @@ class StreamApiController extends BaseController
       return '400 Invalid request (uid).';
     }
 
-    if(!$game = $user->games()->live()->orderBy('updated_at')->with('platforms')->first()) {
+    if(!$game = $user->games()->live()->orderBy('updated_at', 'asc')->with('platforms')->first()) {
       $live = null;
       $platforms = null;
     }

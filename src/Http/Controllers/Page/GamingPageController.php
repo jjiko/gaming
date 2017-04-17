@@ -1,8 +1,9 @@
 <?php namespace Jiko\Gaming\Http\Controllers\Page;
 
+use Illuminate\Support\Collection;
 use Jiko\Auth\User;
+use Jiko\Gaming\Models\Platform;
 use Jiko\Http\Controllers\Controller;
-use Jiko\Gaming\Twitch\Twitch;
 
 class GamingPageController extends Controller
 {
@@ -44,35 +45,55 @@ class GamingPageController extends Controller
   public function index()
   {
     $this->page->title = "Gaming stream & news.";
-    $twitch = (new Twitch)->stream();
-    $games = User::find(2)->games()->wherePivot('status', 'Playing')->with('platforms')->get();
-    $games_sorted = $games->random(8)->sort(function ($a, $b) {
-      return strcmp($a->platforms->first()->name, $b->platforms->first()->name);
-    });
-    $games_grouped = $games_sorted->split(ceil(count($games_sorted) / 4));
-    view()->share([
-        'layout' => (object)[
-          'config' => ['main.class' => 'no-sidebar'],
-        ],
-        'TwitchStatus' => $twitch->stream ? "online" : "offline",
-        'games_count' => $games->count(),
-        'games_grouped' => $games_grouped,
-        'networks' => json_decode(file_get_contents(__DIR__ . '/../../../storage/networks.json')),
-      ]
-    );
-
     $this->setContent('gaming::index');
+  }
+
+  public function networks()
+  {
+    $this->page->title = "Gaming networks handles";
+    $networks = json_decode(file_get_contents(__DIR__ . '/../../../storage/networks.json'));
+    $this->setContent('gaming::networks', ['networks' => $networks]);
+
+  }
+
+  public function wishlist()
+  {
+    $this->page->title = "Wishlist";
   }
 
   public function allGames()
   {
     $this->page->title = "Game list";
     $games = User::find(2)->games()->with('platforms')->get();
-    $games_grouped = $games_grouped = $games->groupBy(function ($item, $key) {
+    $wishlist = new Collection();
+    $games_grouped = $games_grouped = $games->groupBy(function ($item, $key) use ($wishlist) {
+      if ($item->pivot->status == "Wishlist") {
+        $wishlist->push($item);
+        return;
+      }
       return $item->platforms->first()->name;
     });
+    $wishlist_grouped = new Collection(['Wishlist' => $wishlist]);
 
-    $this->setContent('gaming::all-games', ['games_grouped' => $games_grouped]);
+    $this->setContent('gaming::all-games', [
+      'games_grouped' => $games_grouped,
+      'wishlist' => $wishlist_grouped
+    ]);
+  }
+
+  public function platforms()
+  {
+    $platforms = Platform::with('game')->get();
+    $platforms_sorted = $platforms->sort(function ($a, $b) {
+      return $a->game->count() < $b->game->count();
+    });
+    $this->setContent('gaming::platforms', ['platforms' => $platforms_sorted]);
+  }
+
+  public function platform($abbreviation)
+  {
+    $platforms = Platform::where('abbreviation', $abbreviation)->with('game')->get();
+    $this->setContent('gaming::platform', ['platforms' => $platforms]);
   }
 
 

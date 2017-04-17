@@ -15,7 +15,59 @@ class AdminPageController extends AdminController
 
   public function index()
   {
-    return $this->content('admin::gaming', ['game_collection' => request()->user()->games]);
+    $game_collection = request()->user()->games()->limit(10)->get();
+    return $this->content('admin::gaming.index', ['game_collection' => $game_collection]);
+  }
+
+  public function eventTest()
+  {
+    switch (request()->input('action')) {
+      case "attach":
+        if ($game = Game::where('gbid', 0)->first()) {
+          request()->user()->games()->attach(['game_id' => $game->id], ['platform_id' => 1, 'status' => 'Dropped']);
+        }
+        break;
+      case "detach":
+        if ($game = Game::where('gbid', 0)->first()) {
+          request()->user()->games()->attach(['game_id' => $game->id, 'platform_id' => 1]);
+        }
+        break;
+      case "pivotUpdate":
+        if ($game = Game::where('gbid', 0)->first()) {
+          request()->user()->games()->updateExistingPivot(['game_id' => $game->id, 'platform_id' => 1], ['status' => 'Backlog']);
+        }
+        break;
+      case "create":
+        $game = Game::create([
+          'gbid' => 0,
+          'name' => "UPDATE OR DELETE ME",
+          'image' => "{}"
+        ]);
+        break;
+      case "restore":
+        // @todo
+        break;
+      case "update":
+        if ($game = Game::where('gbid', 0)->first()) {
+          $game::update([
+            'name' => "UPDATED"
+          ]);
+        }
+        break;
+      case "delete":
+        if ($game = Game::where('gbid', 0)->first()) {
+          $game->delete();
+        }
+        break;
+    }
+
+    return $this->content('admin::gaming.test.events');
+  }
+
+  public function gameList()
+  {
+    $game_collection = request()->user()->games;
+    return $this->content('admin::gaming.game-list', ['game_collection' => $game_collection]);
   }
 
   protected function streamStatus()
@@ -44,7 +96,26 @@ class AdminPageController extends AdminController
 
   public function show($id)
   {
+    //
+  }
 
+  public function update()
+  {
+    $user = request()->user();
+    $res = $user->gameUpdate([
+      'game_id' => request()->input('game_id'),
+      'platform_id' => request()->input('platform_id')
+    ], [
+      'status' => request()->input('status')
+    ]);
+    return response()->json(['games' => $user->games()->limit(10)->get(), 'response' => $res]);
+  }
+
+  public function delete()
+  {
+    $user = request()->user();
+    $res = $user->gameDetach(['game_id' => request()->input('game_id'), 'platform_id' => request()->input('platform_id')]);
+    return response()->json(['games' => $user->games()->limit(10)->get(), $res => $res]);
   }
 
   public function create()
@@ -81,7 +152,7 @@ class AdminPageController extends AdminController
     }
 
     // attach game to user
-    $user->games()->attach($game->id, ['platform_id' => $platform->id, 'status' => Input::get('status')]);
+    $user->gameAttach($game->id, ['platform_id' => $platform->id, 'status' => Input::get('status')]);
 
     return response()->json($user->games);
   }

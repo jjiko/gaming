@@ -1,8 +1,6 @@
 <?php namespace Jiko\Gaming\Models;
 
-use Illuminate\Database\Eloquent\Model;
-
-class UserGame extends Model
+class UserGame extends GamingModel
 {
   protected $table = "user_game";
 

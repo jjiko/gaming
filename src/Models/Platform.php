@@ -1,9 +1,8 @@
 <?php namespace Jiko\Gaming\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Collection;
 
-class Platform extends Model
+class Platform extends GamingModel
 {
   protected $table = 'platform';
 
@@ -11,7 +10,7 @@ class Platform extends Model
 
   public function game()
   {
-    return $this->belongsToMany('Jiko\Gaming\Models\Game', 'game_platform', 'game_id', 'platform_id');
+    return $this->belongsToMany('Jiko\Gaming\Models\Game', 'game_platform', 'platform_id', 'game_id');
   }
 
   public function user()

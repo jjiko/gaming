@@ -11,7 +11,7 @@ class GamePageController extends AdminController
   public function show($id)
   {
     $game = Game::find($id);
-
+    $this->page->title = 'Show Game Page';
     $this->setContent('admin::gaming.game.show');
   }
 }

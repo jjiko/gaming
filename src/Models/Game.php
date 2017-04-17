@@ -1,13 +1,14 @@
 <?php namespace Jiko\Gaming\Models;
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 
-class Game extends Model
+class Game extends GamingModel
 {
-  protected $table = 'game';
-
   public $guarded = ['id'];
+  protected $table = 'game';
+//  protected $casts = [
+//    'image' => 'array'
+//  ];
 
   public function platforms()
   {

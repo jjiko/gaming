@@ -33,5 +33,5 @@
         z-index: 10;
     }
 </style>
-<div id="platform">{{ $platform->name }}</div>
+<div id="platform">{{ $platform->abbreviation }}</div>
 <div id="cover"></div>
