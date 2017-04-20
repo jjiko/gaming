@@ -59,6 +59,7 @@ Route::group(['prefix' => '/api/g', 'namespace' => 'Jiko\Gaming\Http\Controllers
 Route::group(['namespace' => 'Jiko\Gaming\Http\Controllers\Page'], function () {
   Route::group(['prefix' => '/gaming'], function () {
     Route::name('gaming')->get('/', 'GamingPageController@index');
+    Route::name('gaming_widget')->any('/embed/widget', 'GamingPageController@widget');
     Route::name('gaming_networks')->get('/networks', 'GamingPageController@networks');
     Route::name('gaming_platforms')->get('/platforms', 'GamingPageController@platforms');
     Route::name('gaming_platform')->get('/platform/{abbriviation}', 'GamingPageController@platform');

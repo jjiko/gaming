@@ -56,7 +56,7 @@
                     <div class="col-md-12">
                         @foreach($activities as $activity)
                             <div class="row activity {{ $activity->category.ucfirst($activity->action) }}">
-                                @if(in_array($activity->category, ['YoutubeVideo','TwitchStream']))
+                                @if(in_array($activity->category, ['YoutubeVideo','TwitchStream','FacebookVideo']))
                                     <div class="col-md-12 activity-media">
                                         {!! $activity->model->icon !!}
                                     </div>

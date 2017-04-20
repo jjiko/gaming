@@ -61,6 +61,26 @@ class GamingPageController extends Controller
     $this->page->title = "Wishlist";
   }
 
+  public function widget()
+  {
+    if (request()->has('ids')) {
+      $filter_ids = request()->input('ids');
+      $games = request()->user()->games;
+      $games_filtered = $games->filter(function ($value, $key) use ($filter_ids) {
+        return in_array($value['id'], $filter_ids);
+      });
+      $this->setContent('gaming::gaming.widget', ['games' => $games_filtered]);
+      return;
+    }
+
+    if (request()->user() instanceof User) {
+      $this->setContent('gaming::gaming.widget-builder', ['games' => request()->user()->games]);
+      return;
+    }
+
+    return abort(403);
+  }
+
   public function allGames()
   {
     $this->page->title = "Game list";
@@ -73,7 +93,7 @@ class GamingPageController extends Controller
       }
       return $item->platforms->first()->name;
     });
-    $games_filtered = $games_grouped->reject(function($value, $key){
+    $games_filtered = $games_grouped->reject(function ($value, $key) {
       return $key == "Wishlist";
     });
     $wishlist_grouped = new Collection(['Wishlist' => $wishlist]);
