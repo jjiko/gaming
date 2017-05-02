@@ -47,6 +47,7 @@ class StreamApiController extends BaseController
 
   public function getTemplate()
   {
+    \Debugbar::disable();
     $name = request()->has('name') ? request()->input('name') : 'cover';
     if(!$user = User::find(request()->input('uid'))) {
       return '400 Invalid request (uid).';
@@ -54,7 +55,7 @@ class StreamApiController extends BaseController
 
     if(!$game = $user->games()->live()->orderBy('updated_at', 'asc')->with('platforms')->first()) {
       $live = null;
-      $platforms = null;
+      $platform = null;
     }
     else {
       $platform = $game->platforms->first();

@@ -13,61 +13,39 @@ class AdminPageController extends AdminController
 {
   protected $layout = 'admin::layouts.default';
 
+  public function next($page = 1)
+  {
+    return request()->user()->games()->offset($page * 10)->limit(10)->get();
+  }
+
   public function index()
   {
     $game_collection = request()->user()->games()->limit(10)->get();
     return $this->content('admin::gaming.index', ['game_collection' => $game_collection]);
   }
 
-  public function eventTest()
-  {
-    switch (request()->input('action')) {
-      case "attach":
-        if ($game = Game::where('gbid', 0)->first()) {
-          request()->user()->games()->attach(['game_id' => $game->id], ['platform_id' => 1, 'status' => 'Dropped']);
-        }
-        break;
-      case "detach":
-        if ($game = Game::where('gbid', 0)->first()) {
-          request()->user()->games()->attach(['game_id' => $game->id, 'platform_id' => 1]);
-        }
-        break;
-      case "pivotUpdate":
-        if ($game = Game::where('gbid', 0)->first()) {
-          request()->user()->games()->updateExistingPivot(['game_id' => $game->id, 'platform_id' => 1], ['status' => 'Backlog']);
-        }
-        break;
-      case "create":
-        $game = Game::create([
-          'gbid' => 0,
-          'name' => "UPDATE OR DELETE ME",
-          'image' => "{}"
-        ]);
-        break;
-      case "restore":
-        // @todo
-        break;
-      case "update":
-        if ($game = Game::where('gbid', 0)->first()) {
-          $game::update([
-            'name' => "UPDATED"
-          ]);
-        }
-        break;
-      case "delete":
-        if ($game = Game::where('gbid', 0)->first()) {
-          $game->delete();
-        }
-        break;
-    }
-
-    return $this->content('admin::gaming.test.events');
-  }
-
   public function gameList()
   {
     $game_collection = request()->user()->games;
     return $this->content('admin::gaming.game-list', ['game_collection' => $game_collection]);
+  }
+
+  public function setGameLive()
+  {
+    $previous = request()->user()->games()->where('live', true)->get();
+    foreach ($previous as $game) {
+      $game->pivot->live = null;
+      $game->pivot->save();
+    }
+
+    $res = request()->user()->gameUpdate([
+      'game_id' => request()->input('gameId'),
+      'platform_id' => request()->input('platformId')
+    ], [
+      'live' => true
+    ]);
+    //return redirect()->route('admin.gaming');
+    return [$res];
   }
 
   protected function streamStatus()

@@ -29,6 +29,14 @@ class UserGameEventSubscriber
     );
   }
 
+  public function onUserGameLive($event)
+  {
+    $event->registerActivity(
+      'UserGame', 'live', $event->user_id,
+      ['id' => ['game_id' => $event->game_id, 'platform_id' => $event->platform_id], 'attributes' => $event->attributes]
+    );
+  }
+
   public function onUserGameUpdated($event)
   {
     $event->registerActivity(

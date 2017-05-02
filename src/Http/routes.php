@@ -5,11 +5,12 @@ Route::group(['prefix' => '/admin', 'namespace' => 'Jiko\Gaming\Http\Controllers
   Route::group(['prefix' => '/gaming'], function () {
     Route::name('admin:gaming_event_test')->get('event-test', 'AdminPageController@eventTest');
     Route::post('event-test', 'AdminPageController@eventTest');
+    Route::post('game/live', 'AdminPageController@setGameLive');
     Route::post('game', 'AdminPageController@create');
     Route::put('game', 'AdminPageController@update');
     Route::delete('game', 'AdminPageController@delete');
     Route::name('admin_game_list')->get('game/list', 'AdminPageController@gameList');
-    Route::get('go-live', 'AdminPageCOntroller@streamLive');
+    Route::get('go-live', 'AdminPageController@streamLive');
     Route::get('stream-preview', 'AdminPageController@streamPreview');
     Route::get('stream-status', 'AdminPageController@streamStatus');
     Route::get('stream-publish', function () {

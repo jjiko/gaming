@@ -8,7 +8,7 @@
         @foreach($game_collection as $item)
             <tr data-game-id="{{ $item->id }}" data-platform-id="{{ $item->pivot->platform_id }}">
                 <td>{{ $item->name }}</td>
-                <td>{{ \Jiko\Gaming\Models\Platform::find($item->pivot->platform_id)->name }}</td>
+                <td>{{ $platforms->where('id', $live->pivot->platform_id)->pluck('abbreviation')->first() }}</td>
                 <td>
                     <select class="form-control" name="status" data-role="update game status">
                         @foreach(['Playing', 'Wishlist', 'Pre-ordered', 'Completed', 'Backlog', 'Dropped'] as $status)

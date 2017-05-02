@@ -6,6 +6,7 @@ class Game extends GamingModel
 {
   public $guarded = ['id'];
   protected $table = 'game';
+  protected $with = ['platforms'];
 //  protected $casts = [
 //    'image' => 'array'
 //  ];
