@@ -1,3 +1,12 @@
+<?php if (!isset($platforms)) {
+  $platforms = Jiko\Gaming\Models\Platform::all();
+  if ($live = $user->games()->live()->first()) {
+    $live_value = sprintf("%s (%s)", $live->name, $platforms->where('id', $live->pivot->platform_id)->pluck('abbreviation')->first());
+  } else {
+    $live_value = "";
+  }
+}
+?>
 <table class="table table-condensed" id="table-game-list">
     <tr>
         <th>Game</th>

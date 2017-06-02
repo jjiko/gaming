@@ -4,25 +4,24 @@
 <section>
     @if(!request()->ajax())
         <h1><i class="fa fa-gamepad"></i> Gaming</h1>
-        <article class="row">
+        <article class="row" id="gamingIndex">
             <div class="col-md-12">
                 <div class="">
-                    <div class="row">
+                    <div class="row streamStatus">
                         @if($TwitchStatus == "online")
-                            <div class="col-md-10 alert alert-info">
+                            <div class="col-md-10 alert alert-info streamOnline">
                                 <iframe src="https://player.twitch.tv/?channel={{getenv('TWITCH_USER_ID')}}"
                                         frameborder="0" allowfullscreen="true" scrolling="no" height="600"
                                         width="100%"></iframe>
                             </div>
                         @else
-                            <div class="col-sm-12">
-                                <h2 style="margin-left: 0; margin-top:0; color: #222222; position:relative; z-index: 50; height: 40px;line-height:1.5">
-                                    Now
-                                    Playing
-                                </h2>
-                                <div style="position:absolute;right:15px;top:5px;z-index:51"><a
-                                            class="btn btn-default" href="/gaming/all-games"
-                                            style="color: #171121">View all games</a></div>
+                            <div class="col-sm-12 streamOffline">
+                                <h2 class="title nowPlaying">Now Playing</h2>
+                                <div class="nowPlayingActions" style="display:none">
+                                    <a class="btn btn-default viewAllGames" href="/gaming/all-games" >
+                                        View all games
+                                    </a>
+                                </div>
                                 <div style="background-color: #fefefe;padding: 0;margin-bottom: 20px">
                                     <div class="row">
                                         <div class="col-md-12" style="padding-left: 0; padding-right: 0;">

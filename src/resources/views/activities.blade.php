@@ -55,22 +55,8 @@
                     <header class="col-lg-12"></header>
                     <div class="col-md-12">
                         @foreach($activities as $activity)
-                            <div class="row activity {{ $activity->category.ucfirst($activity->action) }}">
-                                @if(in_array($activity->category, ['YoutubeVideo','TwitchStream','FacebookVideo']))
-                                    <div class="col-md-12 activity-media">
-                                        {!! $activity->model->icon !!}
-                                    </div>
-                                    <div class="col-md-12 activity-action">
-                                        {!! $activity->model->action !!}
-                                    </div>
-                                @else
-                                    <div class="col-md-3 activity-media">
-                                        {!! $activity->model->icon !!}
-                                    </div>
-                                    <div class="col-md-9 activity-action">
-                                        {!! $activity->model->action !!}
-                                    </div>
-                                @endif
+                            <div class="row activity {{ class_basename($activity) }}">
+                                {!! $activity->view !!}
                             </div>
                         @endforeach
                     </div>

@@ -23,6 +23,10 @@ class Game extends GamingModel
 
   public function getImageAttribute($value)
   {
+    if (is_array($value)) {
+      return (new Collection($value));
+    }
+
     return (new Collection(json_decode($value) ?: []));
   }
 

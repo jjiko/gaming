@@ -27,7 +27,7 @@ class AdminPageController extends AdminController
   public function gameList()
   {
     $game_collection = request()->user()->games;
-    return $this->content('admin::gaming.game-list', ['game_collection' => $game_collection]);
+    return $this->content('admin::gaming.game-list', ['game_collection' => $game_collection->sortBy('updated_at')]);
   }
 
   public function setGameLive()
