@@ -1,6 +1,27 @@
 <?php
 // admin
 Route::group(['prefix' => '/admin', 'namespace' => 'Jiko\Gaming\Http\Controllers\Admin'], function () {
+  Route::group(['prefix' => 'streaming'], function(){
+    Route::name('admin:stream_dashboard')->get('dashboard', 'StreamConsoleController@index');
+    Route::get('temp', function() {
+      $out = (object) [];
+      $keys = [
+        'IsCharegAssessedPrior',
+        'DateSpectrumRecieverInstall',
+        'DateOrderEvents',
+        'SerialNumberOfAllSpectrum',
+        'AmountRequestedByCust',
+        'ListOfAllOrders'
+      ];
+      foreach($keys as $i => $k) {
+        $out->{$k} = sprintf("##VARIABLE%02d##", ($i+1));
+      }
+      return response()->json($out);
+    });
+  });
+  Route::group(['prefix' => '/multistreamer'], function(){
+    Route::name('admin:multistreamer_index')->get('/', 'MultistreamerPageController@index');
+  });
   Route::name('admin.gaming')->get('gaming', 'AdminPageController@index');
   Route::group(['prefix' => '/gaming'], function () {
     Route::name('admin:gaming_event_test')->get('event-test', 'AdminPageController@eventTest');

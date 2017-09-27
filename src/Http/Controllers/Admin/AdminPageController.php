@@ -34,8 +34,7 @@ class AdminPageController extends AdminController
   {
     $previous = request()->user()->games()->where('live', true)->get();
     foreach ($previous as $game) {
-      $game->pivot->live = null;
-      $game->pivot->save();
+      request()->user()->games()->updateExistingPivot(['game_id' => $game->id, 'platform_id' => $game->pivot->platform_id], ['live' => null], true);
     }
 
     $res = request()->user()->gameUpdate([
@@ -45,7 +44,7 @@ class AdminPageController extends AdminController
       'live' => true
     ]);
     //return redirect()->route('admin.gaming');
-    return [$res];
+    return [request()->user()->games()->where('live', true)->get()];
   }
 
   protected function streamStatus()

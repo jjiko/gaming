@@ -16,7 +16,7 @@ class Multistreamer extends Command
   {
     Redis::connection('multistreamer')->psubscribe(['*'], function ($message, $channel) {
       Log::info("Message: $message, Channel: $channel");
-      echo $message;
+      echo sprintf("%s: %s\n", $channel, $message);
     });
   }
 }

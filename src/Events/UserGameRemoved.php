@@ -13,7 +13,7 @@ class UserGameRemoved
 
   public function __construct($user_id, $game_ids)
   {
-    $this->user_id = $user;
+    $this->user_id = $user_id;
     $this->game_ids = $game_ids;
   }
 }

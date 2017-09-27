@@ -8,5 +8,6 @@ class GamingEventServiceProvider extends ServiceProvider
 {
   protected $subscribe = [
     'Jiko\Gaming\Listeners\UserGameEventSubscriber',
+    'Jiko\Gaming\Listeners\StreamEventSubscriber'
   ];
 }
