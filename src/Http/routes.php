@@ -3,21 +3,6 @@
 Route::group(['prefix' => '/admin', 'namespace' => 'Jiko\Gaming\Http\Controllers\Admin'], function () {
   Route::group(['prefix' => 'streaming'], function(){
     Route::name('admin:stream_dashboard')->get('dashboard', 'StreamConsoleController@index');
-    Route::get('temp', function() {
-      $out = (object) [];
-      $keys = [
-        'IsCharegAssessedPrior',
-        'DateSpectrumRecieverInstall',
-        'DateOrderEvents',
-        'SerialNumberOfAllSpectrum',
-        'AmountRequestedByCust',
-        'ListOfAllOrders'
-      ];
-      foreach($keys as $i => $k) {
-        $out->{$k} = sprintf("##VARIABLE%02d##", ($i+1));
-      }
-      return response()->json($out);
-    });
   });
   Route::group(['prefix' => '/multistreamer'], function(){
     Route::name('admin:multistreamer_index')->get('/', 'MultistreamerPageController@index');
@@ -31,6 +16,7 @@ Route::group(['prefix' => '/admin', 'namespace' => 'Jiko\Gaming\Http\Controllers
     Route::put('game', 'AdminPageController@update');
     Route::delete('game', 'AdminPageController@delete');
     Route::name('admin_game_list')->get('game/list', 'AdminPageController@gameList');
+    Route::get('game/{id}', 'AdminPageController@show');
     Route::get('go-live', 'AdminPageController@streamLive');
     Route::get('stream-preview', 'AdminPageController@streamPreview');
     Route::get('stream-status', 'AdminPageController@streamStatus');

@@ -16,7 +16,7 @@ class MultistreamerPageController extends AdminController
     $client = new Client();
 
     // get config URLS
-    $res = $client->request('GET', 'http://192.168.86.105:8081/api/v1/config', [
+    $res = $client->request('GET', 'http://local-live.joejiko.com/api/v1/config', [
       'headers' => [
         'Authorization' => 'Bearer ' . getenv('MULTISTREAMER_TOKEN'),
         'Accept' => 'application/json'
@@ -32,7 +32,7 @@ class MultistreamerPageController extends AdminController
     // get status of all streams
     $statuses = new Collection();
     foreach ($streams as $stream) {
-      $status = $client->request('PATCH', 'http://192.168.86.105:8081/api/v1/stream/' . $stream->id, [
+      $status = $client->request('PATCH', 'http://local-live.joejiko.com/api/v1/stream/' . $stream->id, [
         'headers' => [
           'Authorization' => 'Bearer ' . getenv('MULTISTREAMER_TOKEN'),
           'Accept' => 'application/json'

@@ -28,6 +28,10 @@ class GamingServiceProvider extends ServiceProvider
     View::composer(
       'gaming::activities', 'Jiko\Gaming\Http\ViewComposers\GamingActivityComposer'
     );
+
+    View::composer(
+      'gaming::activities-widget', 'Jiko\Gaming\Http\ViewComposers\GamingActivityWidgetComposer'
+    );
   }
 
   public function register()

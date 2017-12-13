@@ -73,7 +73,8 @@ class AdminPageController extends AdminController
 
   public function show($id)
   {
-    //
+    $game = request()->user()->games()->find($id);
+    $this->setContent('admin::gaming.game.show', ['game' => $game]);
   }
 
   public function update()

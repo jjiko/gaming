@@ -31,6 +31,17 @@
         @else
             Add a channel to begin
         @endif
+        @foreach($keystore as $accounts)
+            <h5>{{ array_get($accounts, 'account_network') }}</h5>
+            <table class="table">
+                @foreach(array_get($accounts, 'keystore') as $keystore)
+                    <tr>
+                        <td>{{ $keystore->key }}</td>
+                        <td>{{ $keystore->value }}</td>
+                    </tr>
+                @endforeach
+            </table>
+        @endforeach
     </div>
     <div class="col-md-4">
         <div class="row">

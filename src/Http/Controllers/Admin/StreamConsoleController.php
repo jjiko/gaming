@@ -2,10 +2,12 @@
 
 namespace Jiko\Gaming\Http\Controllers\Admin;
 
+use Illuminate\Support\Collection;
 use Jiko\Admin\Http\Controllers\AdminController;
 use Jiko\Auth\OAuthUser;
 use Jiko\Gaming\Events\StreamUserLogin;
 use GuzzleHttp\Client;
+use Jiko\Gaming\Models\Multistreamer\Keystore;
 
 class StreamConsoleController extends AdminController
 {
@@ -18,7 +20,7 @@ class StreamConsoleController extends AdminController
     $client = new Client();
 
     // get config URLS
-    $res = $client->request('GET', 'http://192.168.86.105:8081/api/v1/config', [
+    $res = $client->request('GET', 'http://local-live.joejiko.com/api/v1/config', [
       'headers' => [
         'Authorization' => 'Bearer ' . getenv('MULTISTREAMER_TOKEN'),
         'Accept' => 'application/json'
@@ -40,9 +42,20 @@ class StreamConsoleController extends AdminController
 
     //dd($this->user->twitch->channel());
     $oauthChannels = OAuthUser::where('user_id', $this->user->id)->whereIn('provider', ['twitch', 'google'])->get();
+    $accounts = $stream->accounts;
+    $keystore = new Collection();
+    foreach ($accounts as $account) {
+      $keystore->push([
+        'account_network' => $account->network,
+        'account_id' => $account->id,
+        'keystore' => $account->keystore($stream->id)
+      ]);
+    }
+
     $viewData = [
       'channels' => $multistreamer->user->channels,
       'ms_config' => $this->multistreamer->config,
+      'keystore' => $keystore,
       'stream' => $stream
     ];
 

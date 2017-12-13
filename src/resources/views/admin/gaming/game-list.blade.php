@@ -44,7 +44,7 @@
                 @foreach($game_collection as $item)
                     <tr data-role="game filter row" data-game-id="{{ $item->id }}"
                         data-platform-id="{{ $item->pivot->platform_id }}">
-                        <td class="game-name">{{ $item->name }}</td>
+                        <td class="game-name"><a href="/admin/gaming/game/{{ $item->id }}">{{ $item->name }}</a></td>
                         <td class="platform-name">{{ $platforms->where('id', $item->pivot->platform_id)->pluck('abbreviation')->first() }}</td>
                         <td class="game-status">
                             <select class="form-control select-game-status" name="status" data-role="update game status"
