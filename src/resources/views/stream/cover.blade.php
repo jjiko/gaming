@@ -22,7 +22,7 @@
     }
 
     #cover {
-        background-image: url({{ $game->image->get('super_url') }});
+        background-image: url({{ $game->cover }});
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center center;

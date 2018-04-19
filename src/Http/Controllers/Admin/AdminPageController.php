@@ -20,14 +20,21 @@ class AdminPageController extends AdminController
 
   public function index()
   {
-    $game_collection = request()->user()->games()->limit(10)->get();
+    $game_collection = request()->user()->games()->limit(10)->orderBy('updated_at', 'desc')->get();
     return $this->content('admin::gaming.index', ['game_collection' => $game_collection]);
   }
 
+  public function platformList()
+  {
+    $platform_collection = Platform::all();
+    return $this->content('admin::gaming.platform-list', ['collection' => $platform_collection]);
+  }
+
+
   public function gameList()
   {
-    $game_collection = request()->user()->games;
-    return $this->content('admin::gaming.game-list', ['game_collection' => $game_collection->sortBy('updated_at')]);
+    $game_collection = request()->user()->games->sortByDesc('updated_at');
+    return $this->content('admin::gaming.game-list', ['game_collection' => $game_collection]);
   }
 
   public function setGameLive()
@@ -69,12 +76,6 @@ class AdminPageController extends AdminController
   public function streamPreview()
   {
     return view('admin::gaming.stream-preview');
-  }
-
-  public function show($id)
-  {
-    $game = request()->user()->games()->find($id);
-    $this->setContent('admin::gaming.game.show', ['game' => $game]);
   }
 
   public function update()

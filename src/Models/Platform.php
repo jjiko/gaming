@@ -18,8 +18,21 @@ class Platform extends GamingModel
     return $this->belongsToMany('Jiko\Auth\User', 'user_game', 'user_id', 'platform_id');
   }
 
-  public function getImageAttribute($value)
+  public function getLogoAttribute()
   {
+    if($this->images->has('logo_url')) {
+      return $this->images->get('logo_url');
+    }
+
+    return null;
+  }
+
+  public function getImagesAttribute($value)
+  {
+    if (is_array($value)) {
+      return (new Collection($value));
+    }
+
     return (new Collection(json_decode($value) ?: []));
   }
 }

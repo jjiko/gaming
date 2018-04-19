@@ -7,7 +7,7 @@ if (!isset($platforms)) {
 
 <div class="form-group">
     <label>Recently live</label>
-  <?php $recent = $user->games()->whereNotNull('live_created_at')->limit(10)->get(); ?>
+  <?php $recent = $user->games()->whereNotNull('live_created_at')->orderBy('live_created_at', 'desc')->limit(10)->get(); ?>
     <div class="row">
         @foreach($recent as $game)
             <div class="col-md-2" data-game-id="{{ $game->id }}" data-platform-id="{{ $game->pivot->platform_id }}">

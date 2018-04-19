@@ -17,9 +17,9 @@ class GiantBombApiController extends Controller
   protected function request($endpoint, $options = [])
   {
     //$url = '?api_key=' . getenv('GIANT_BOMB_API') . '&filter=id:' . $id . '&format=json';
-    $url = vsprintf('%endpoint$s?%query$s', [
-      'endpoint' => $endpoint,
-      'query' => http_build_query(array_merge($this->parameters, $options))
+    $url = vsprintf('%s?%s', [
+      $endpoint,
+      http_build_query(array_merge($this->parameters, $options))
     ]);
     $context = stream_context_create(['http' => ['user_agent' => $this->user_agent]]);
     $response = json_decode(file_get_contents($url, false, $context));

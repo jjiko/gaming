@@ -62,6 +62,7 @@ class StreamApiController extends BaseController
     }
 
     return view('gaming::stream.' . $name, [
+      'game_user' => $user,
       'game' => $game,
       'platform' => $platform,
     ]);
@@ -69,8 +70,9 @@ class StreamApiController extends BaseController
 
   public function getNowPlaying()
   {
-    $id = Input::get('id');
-    $pid = Input::get('platform');
+    $current_user_game = request()->user()->games()->orderBy('updated_at', 'asc')->with('platforms')->first();
+    $id = request()->has('id') ? request()->input('id') : $current_user_game->gbid;
+    $pid = request()->has('platform') ? request()->input('platform') : $current_user_game->pivot->platform_id;
     $game = json_decode(file_get_contents("http://local.joejiko.com/api/g/gb/game/$id?platform=$pid"));
     $platform = json_decode(file_get_contents("http://local.joejiko.com/api/g/gb/platform/$pid"));
     return view('gaming::stream.now-playing', ['game' => $game->results[0], 'platform' => $platform->results[0]]);

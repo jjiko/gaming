@@ -21,6 +21,15 @@ class Game extends GamingModel
     return $this->belongsToMany('Jiko\Auth\User');
   }
 
+  public function getCoverAttribute()
+  {
+    if($this->image->has('local_cover_url')) {
+      return $this->image->get('local_cover_url');
+    }
+
+    return $this->image->get('super_url');
+  }
+
   public function getImageAttribute($value)
   {
     if (is_array($value)) {

@@ -1,0 +1,2 @@
+<pre style="white-space: pre-wrap">{{ file_get_contents("https://discordapp.com/api/guilds/142054001821614080/widget.json") }}</pre>
+<iframe src="https://discordapp.com/widget?id=142054001821614080&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0"></iframe>

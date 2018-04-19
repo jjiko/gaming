@@ -48,6 +48,12 @@ class GamingPageController extends Controller
     $this->setContent('gaming::index');
   }
 
+  public function chat()
+  {
+    $this->page->title = "Gaming chat";
+    $this->setContent("gaming::chat");
+  }
+
   public function networks()
   {
     $this->page->title = "Gaming networks handles";
