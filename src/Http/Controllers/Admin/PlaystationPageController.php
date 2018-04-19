@@ -3,7 +3,7 @@
 use Jiko\Admin\Http\Controllers\AdminController;
 
 
-class GamePageController extends AdminController
+class PlaystationPageController extends AdminController
 {
   public function setup() {
 
