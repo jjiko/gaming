@@ -7,9 +7,11 @@ use Jiko\Activity\Activity;
 
 class GamingActivityWidgetComposer
 {
-  function __construct(Activity $activity)
+  function __construct()
   {
-    $this->activities = $activity::gaming()->orderBy('created_at', 'desc')->limit(8)->get();
+    $this->activities = cache()->rememberForever('activity.widget', function(){
+      return Activity::gaming()->orderBy('created_at', 'desc')->limit(8)->get();
+    });
   }
 
   function compose(View $view)

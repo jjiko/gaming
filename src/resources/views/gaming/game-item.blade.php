@@ -12,7 +12,7 @@
              class="img-responsive img-fade-in game-img"
              style="position:absolute;left:0;bottom:0;z-index:30;padding:15px"
              alt="{{ $game->name }}"
-             src="{{ $game->image->get('small_url') }}">
+             src="{{ str_replace('http://' ,'https://', $game->image->get('small_url')) }}">
         {{--</a>--}}
     </div>
 @endforeach

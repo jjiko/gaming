@@ -12,7 +12,10 @@ class GamingPageController extends Controller
    */
   public function user($id)
   {
-    $game_user = User::find($id);
+    $game_user = cache()->tags('user')->rememberForever('user_By_Id_' . $id, function () {
+      return User::find($id);
+    });
+
     $this->page->title = $game_user->name . ' Gaming stream & list';
     if (!$game_user->games->count()) {
       return $this->setContent('gaming::user.no-games', ['game_user' => $game_user]);
@@ -90,7 +93,12 @@ class GamingPageController extends Controller
   public function allGames()
   {
     $this->page->title = "Game list";
-    $games = User::find(2)->games()->with('platforms')->get();
+    $games = cache()->tags('gaming')->rememberForever('me.games', function () {
+      return User::find(2)->games()->with('platforms')->get();
+    });
+    $platforms = cache()->tags('gaming')->rememberForever('gaming.platforms', function () {
+      return Platform::all();
+    });
     $wishlist = new Collection();
     $games_grouped = $games->groupBy(function ($item, $key) use ($wishlist) {
       if ($item->pivot->status == "Wishlist") {
@@ -106,6 +114,7 @@ class GamingPageController extends Controller
 
     $this->setContent('gaming::all-games', [
       'games_grouped' => $games_filtered,
+      'platforms' => $platforms,
       'wishlist' => $wishlist_grouped
     ]);
   }

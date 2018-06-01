@@ -5,6 +5,7 @@ namespace Jiko\Gaming\Providers;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Jiko\Gaming\Commands\Gaming;
+use Jiko\Gaming\Commands\GamingUpdateCache;
 use Jiko\Gaming\Commands\Multistreamer;
 use Jiko\Gaming\Commands\StreamCheckLive;
 use Jiko\Gaming\Models\Game;
@@ -24,6 +25,7 @@ class GamingServiceProvider extends ServiceProvider
     if ($this->app->runningInConsole()) {
       $this->commands([
         Gaming::class,
+        GamingUpdateCache::class,
         Multistreamer::class,
         StreamCheckLive::class
       ]);

@@ -28,7 +28,7 @@
             height: 42px;
             background-repeat: no-repeat;
             z-index: 37;
-            background-image: url(http://cdn.joejiko.com/img/gaming/status-sprite-2.png);
+            background-image: url(https://cdn.joejiko.com/img/gaming/status-sprite-2.png);
         }
 
         .game-status[data-status="Playing"] {
@@ -67,7 +67,9 @@
     </div>
 @endforeach
 @foreach($games_grouped as $platform => $games)
-  <?php $platform_obj = \Jiko\Gaming\Models\Platform::where('name', $platform)->first(); ?>
+  <?php
+  $platform_obj = $platforms->where('name', $platform)->first();
+  ?>
   <h2>{{ $platform }}</h2>
   <div class="row games-list"
        style="position:relative; background-color: {{$platform_obj->color or 'transparent'}}">

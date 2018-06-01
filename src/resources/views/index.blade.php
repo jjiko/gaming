@@ -38,8 +38,8 @@
                                                                  style="position:relative; z-index: 45; overflow:hidden; height:60px; display: table-cell">
                                                                 <div class="platform-title"
                                                                      style="position:absolute;top:0;left:15px;background:#171121;padding: 3px 6px; color:#efefef; z-index:35">
-                                                                    <div class="hidden-xs">{{ $game->platforms()->first()->name }}</div>
-                                                                    <div class="visible-xs">{{ $game->platforms()->first()->abbreviation }}</div>
+                                                                    <div class="hidden-xs">{{ $game->platforms->first()->name }}</div>
+                                                                    <div class="visible-xs">{{ $game->platforms->first()->abbreviation }}</div>
                                                                 </div>
                                                                 <div class="game-title"
                                                                      style="position:absolute;bottom:15px;right:15px;background:#8135FF;color:#efefef;z-index:36;padding:3px 6px;">
