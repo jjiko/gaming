@@ -8,14 +8,55 @@
       "email": "me@joejiko.com"
     }
   ],
+  "repositories": [
+    {
+      "type": "path",
+      "url": "../admin",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../api",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../auth",
+      "options": {
+        "symlink": true
+      }
+    },
+    {
+      "type": "path",
+      "url": "../support",
+      "options": {
+        "symlink": true
+      }
+    }
+  ],
   "require": {
-    "php": ">=7.1.0"
+    "php": ">=7.1.0",
+    "jjiko/admin": "@dev",
+    "jjiko/auth": "@dev",
+    "jjiko/support": "@dev",
+    "jjiko/api": "@dev"
   },
   "autoload": {
     "psr-4": {
       "Jiko\\Gaming\\": "src/"
     }
   },
+  "config": {
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "optimize-autoloader": true
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "extra": {
     "laravel": {
       "providers": [

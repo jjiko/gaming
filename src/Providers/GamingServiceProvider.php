@@ -6,7 +6,6 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Support\Facades\View;
 use Jiko\Gaming\Commands\Gaming;
 use Jiko\Gaming\Commands\GamingUpdateCache;
-use Jiko\Gaming\Commands\Multistreamer;
 use Jiko\Gaming\Commands\StreamCheckLive;
 use Jiko\Gaming\Models\Game;
 use Jiko\Gaming\Models\UserGame;
@@ -26,7 +25,6 @@ class GamingServiceProvider extends ServiceProvider
       $this->commands([
         Gaming::class,
         GamingUpdateCache::class,
-        Multistreamer::class,
         StreamCheckLive::class
       ]);
     }

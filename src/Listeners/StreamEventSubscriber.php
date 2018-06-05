@@ -2,25 +2,11 @@
 
 namespace Jiko\Gaming\Listeners;
 
-use Jiko\Gaming\Events\StreamUserCreated;
-use Jiko\Gaming\Events\StreamUserLogin;
 use Jiko\Gaming\Events\StreamCreated;
 use Jiko\Gaming\Events\StreamStreaming;
 
 class StreamEventSubscriber
 {
-
-  public function onUserLogin(StreamUserLogin $event)
-  {
-    $event->verifyUserExists();
-    $event->verifyUserStreams();
-  }
-
-  public function onUserCreated(StreamUserCreated $event)
-  {
-    $event->copyMsUserToLocal();
-  }
-
 
   /**
    * @param $event
@@ -54,11 +40,6 @@ class StreamEventSubscriber
     $events->listen(
       'Jiko\Gaming\Events\TwitchStreamStreaming',
       'Jiko\Gaming\Listeners\StreamEventSubscriber@onStreamStreaming'
-    );
-
-    $events->listen(
-      'Jiko\Gaming\Events\StreamUserLogin',
-      'Jiko\Gaming\Listeners\StreamEventSubscriber@onUserLogin'
     );
 
     $events->listen(

@@ -2,12 +2,6 @@
 
 // admin
 Route::group(['prefix' => '/admin', 'namespace' => 'Jiko\Gaming\Http\Controllers\Admin'], function () {
-  Route::group(['prefix' => 'streaming'], function () {
-    Route::name('admin:stream_dashboard')->get('dashboard', 'StreamConsoleController@index');
-  });
-  Route::group(['prefix' => '/multistreamer'], function () {
-    Route::name('admin:multistreamer_index')->get('/', 'MultistreamerPageController@index');
-  });
   Route::name('admin.gaming')->get('gaming', 'AdminPageController@index');
   Route::group(['prefix' => '/gaming'], function () {
     Route::name('admin:gaming_event_test')->get('event-test', 'AdminPageController@eventTest');
